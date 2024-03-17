@@ -3,10 +3,10 @@ import {createRoot} from 'react-dom/client'
 
 /**
  * 向网页注入组件。将在 `Shadow DOM`中创建
- * @param comps 组件。如 `<div> <Toaster/> <Button>点击按钮</Button> </div>`
+ * @param component 组件。如 `<div> <Toaster/> <Button>点击按钮</Button> </div>`
  * @param styles 样式。如 `import styles from "./style.css?inline"`后，传递 `styles`
  */
-const injectComps = (comps: React.ReactNode, styles?: string) => {
+const injectComponent = (component: React.ReactNode, styles?: string) => {
   const app = document.createElement("div")
   document.body.appendChild(app)
 
@@ -23,7 +23,7 @@ const injectComps = (comps: React.ReactNode, styles?: string) => {
   }
 
   const root = createRoot(shadowRootContainer)
-  root.render(comps)
+  root.render(component)
 }
 
-export default injectComps
+export default injectComponent

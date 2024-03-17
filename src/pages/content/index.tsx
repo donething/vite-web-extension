@@ -1,13 +1,18 @@
 import React from "react"
-import {Toaster} from "@/components/ui/toaster"
-import injectComps from "@/mylib/inject_comps"
-import {toast} from "@/components/ui/use-toast"
+import injectComponent from "@/mylib/injectComponent"
 import styles from "./style.css?inline"
+import {Button} from "@/components/ui/button"
+import {Toaster} from "@/components/ui/toaster"
+import {toast} from "@/components/ui/use-toast"
 
 // 注入 shadcn-ui 的 toast
-injectComps(<div><Toaster/></div>, styles)
-// 使用 shadcn-ui 的 toast 提示
-toast({description: "content script loaded"})
+injectComponent(
+  <div className={"absolute bottom-0 left-0 "}>
+    <Toaster/>
+
+    <Button onClick={() => toast({description: "content script loaded"})}>点击内容脚本的按钮</Button>
+  </div>, styles
+)
 
 try {
   console.log("content script loaded")

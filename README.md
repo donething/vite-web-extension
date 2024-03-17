@@ -14,6 +14,44 @@ make sure to check it out <a target="_blank" rel="noopener noreferrer" href="htt
 
 </div>
 
+## 我修改的部分
+
+### 升级依赖
+
+注意：`@crxjs/vite-plugin`包要用最新的测试版`^2.0.0`+（如"^2.0.0-beta.23"），以支持`MV3`
+
+最新版地址：[crxjs/chrome-extension-tools](https://github.com/crxjs/chrome-extension-tools)
+
+### 内容脚本中创建shadow`注入组件和样式
+
+内容脚本中，向网页中注入组件和样式时使用`shadow`，避免影响原网页的样式
+
+注意：导入样式时使用`import styles from "./style.css?inline"`。存储到变量`styles`，并且必须加上`?inline`（因为原文件并没有 export 内容）
+
+然后注入组件时，`styles`也需要作为参数传递：
+
+```ts
+injectComponent(
+  <div className="absolute bottom-0 left-0 text-lg text-black bg-amber-400 z-50"> 
+          content script loaded 
+  </div>,
+
+  styles
+)
+```
+
+### 可使用`shadcn-ui`库
+
+扩展(含`内容脚本`)可使用`shadcn-ui`
+
+注意：内容脚本向网页注入组件时，中不能使用部分复杂的组件（如"Sonner"），要实际检测
+
+因为不会将打包后`js`注入到网页的`Shadow Dom`中，会导致部分样式无效
+
+所以，使用其它组件库（如"NextUI"）极可能都无法正常使用样式
+
+------
+
 ## Table of Contents
 
 - [Intro](#intro)
@@ -59,12 +97,6 @@ I couldn't find another minimal boilerplate for React, TypeScript and Tailwind C
 - [Chrome Extension Manifest Version 3](https://developer.chrome.com/docs/extensions/mv3/intro/)
 - [Github Action](https://github.com/JohnBra/vite-web-extension/actions/workflows/ci.yml) to build and zip your extension (manual trigger)
 
-## 改变的内容
-
-1. 升级依赖版本
-2. `Content Script`注入网页的脚本和样式使用`shadow`，避免影响原网页。参考：[content_script index.tsx not applying Tailwind CSS · Issue #19 · JohnBra/vite-web-extension](https://github.com/JohnBra/vite-web-extension/issues/19)
-3. 扩展(含`Content Script`)先可直接使用`shadcn-ui`
-4. 通过`Content Script`向页面注入元素时，不设置元素的`id`，不必要，也以免和其它扩展、元素冲突
 ## Usage <a name="usage"></a>
 
 ### Setup <a name="setup"></a>
